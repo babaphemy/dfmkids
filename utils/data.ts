@@ -246,39 +246,43 @@ export const kidData = [
 		//    { id: 6, answer: "87c" },
 		// ],
 	},
-	{
-		id: 13,
-		page: 13,
-		title: 'Coin Worksheet',
-		image: '',
-		exercise: [
-			{
-				id: 1,
-				question:
-					'A quarter is ___ cents. It takes ____ quarters to make $1.00',
-				answer: [25, 4],
-				image: '',
-			},
-			{
-				id: 2,
-				question: 'A dime is ___ cents. It takes ____ dimes to make $1.00',
-				answer: [10, 10],
-				image: '',
-			},
-			{
-				id: 1,
-				question: 'A nickel is ___ cents. It takes ____ nickels to make $1.00',
-				answer: [5, 20],
-				image: '',
-			},
-			{
-				id: 1,
-				question: 'A penny is ___ cents. It takes ____ pennies to make $1.00',
-				answer: [1, 100],
-				image: '',
-			},
-		],
-	},
+	
+];
+
+
+export const kidDataSecond = [{
+	id: 13,
+	page: 13,
+	title: 'Coin Worksheet',
+	image: '',
+	exercise: [
+		{
+			id: 1,
+			question:
+				'A quarter is ___ cents. It takes ____ quarters to make $1.00',
+			answer: [25, 4],
+			image: '',
+		},
+		{
+			id: 2,
+			question: 'A dime is ___ cents. It takes ____ dimes to make $1.00',
+			answer: [10, 10],
+			image: '',
+		},
+		{
+			id: 1,
+			question: 'A nickel is ___ cents. It takes ____ nickels to make $1.00',
+			answer: [5, 20],
+			image: '',
+		},
+		{
+			id: 1,
+			question: 'A penny is ___ cents. It takes ____ pennies to make $1.00',
+			answer: [1, 100],
+			image: '',
+		},
+	],
+},
 	{
 		id: 14,
 		title: 'Economic Check-Up',
@@ -469,5 +473,4 @@ export const kidData = [
 				options: ['', '', '', '', '', ''],
 			},
 		],
-	},
-];
+	}]

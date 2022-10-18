@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React from 'react';
 import {
 	responsiveFontSize,
 	responsiveHeight,
@@ -16,7 +16,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
 	const phoneWidth = width < 500 ? true : false;
 
 	const _start = () => {
-		navigation.navigate('Kids');
+		navigation.navigate('Chapters');
 		return;
 	};
 

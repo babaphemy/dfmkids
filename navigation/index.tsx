@@ -20,6 +20,7 @@ import {
 } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import Newkid from '../screens/kid/NewKid';
+import Chapters from '../screens/Chapters';
 
 const optionNavigator: NativeStackNavigationOptions = {
 	headerShown: false,
@@ -55,6 +56,7 @@ function RootNavigator() {
 			/>
 
 			<Stack.Screen name="Kids" component={Newkid} />
+			<Stack.Screen name="Chapters" component={Chapters} />
 
 			<Stack.Screen
 				name="NotFound"

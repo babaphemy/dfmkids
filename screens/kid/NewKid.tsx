@@ -19,35 +19,14 @@ import Moneytest from './Workbook/Moneytest';
 import MatchCoin from './Workbook/MatchCoin';
 import SvgArrowLeft from '../../assets/svgs/SvgArrowLeft';
 import SvgArrowRight from '../../assets/svgs/SvgArrowRight';
-import { Audio } from 'expo-av';
-import { SOUND } from './Sound';
+
 import Purse from './Workbook/Purse';
 import Recognition from './Workbook/Recognition';
 import Lemonade from './Workbook/Lemonade';
 
 const Newkid = (props) => {
-	const [sound, setSound] = useState<any>();
-
-	const [pg, setPg] = useState<number>(1);
+	const [pg, setPg] = useState<number>(props?.route?.params?.page || 1);
 	const item = kidData.find((x) => x.page === pg);
-
-	async function playSound() {
-		const { sound } = await Audio.Sound.createAsync(SOUND[0].sound, {
-			isLooping: true,
-		});
-		setSound(sound);
-		await sound.playAsync();
-	}
-	useEffect(() => {
-		return sound
-			? () => {
-					sound.unloadAsync();
-			  }
-			: undefined;
-	}, [sound]);
-	useEffect(() => {
-		playSound();
-	}, []);
 
 	return (
 		<Page>
@@ -177,7 +156,6 @@ const Newkid = (props) => {
 					>
 						<SvgArrowRight />
 					</Button>
-					{/* <Pressable onPress={() => paintStore.kidNext(paintStore.kidPage + 1)}> */}
 				</View>
 			</ContainerSafeView>
 		</Page>
