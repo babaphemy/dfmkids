@@ -4,11 +4,12 @@
     "slug": "dfmkids",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "scheme": "dfmkids",
+    "icon": "./assets/images/icon1.png",
+    "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/splash1b.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -18,13 +19,36 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "net.myeverlasting.dfm",
+      "buildNumber": "1.0.3",
+      "userInterfaceStyle": "light",
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "NSLocationAlwaysUsageDescription": "We do not store your usage data or share with 3rd party."
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "foregroundImage": "./assets/images/iconimage.png",
+        "backgroundColor": "#ffbf09"
+      },
+      "versionCode": 1,
+      "package": "net.myeverlasting.dfm",
+      "permissions": [
+        "ACCESS_NETWORK_STATE",
+        "ACCESS_WIFI_STATE",
+        "CAMERA",
+        "MANAGE_DOCUMENTS",
+        "READ_PHONE_STATE",
+        "USE_FINGERPRINT",
+        "READ_INTERNAL_STORAGE",
+        "WRITE_INTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "com.htc.launcher.permission.READ_SETTINGS",
+        "com.sonyericsson.home.permission.BROADCAST_BADGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
