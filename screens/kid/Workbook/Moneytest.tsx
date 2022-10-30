@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Text, View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { SOUND } from '../Sound';
 import { Audio } from 'expo-av';
 import Draggable from 'react-native-draggable';
@@ -8,6 +8,12 @@ import quarter from '../../../assets/images/quarter.png';
 import nickel from '../../../assets/images/nickel.png';
 import dime from '../../../assets/images/dime.png';
 import CustomButton from '../../../components/buttonc';
+import {
+	responsiveFontSize,
+	responsiveHeight,
+	responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import { TextB } from '../../../components/base-ui/TextAtm';
 
 const options = [
 	{ image: penny, name: 'Penny' },
@@ -15,23 +21,27 @@ const options = [
 	{ image: nickel, name: 'Nickel' },
 	{ image: dime, name: 'Dime' },
 ];
+const { width, height } = Dimensions.get('window');
 
-const Moneytest = () => {
-	const [selected, setSeleted] = useState([]);
+const Moneytest = ({ done }: any) => {
+	const [selected, setSeleted] = useState<Object[]>([]);
+	const [reverse, setReverse] = useState<boolean>(true);
+
+	//let reverse: boolean | null = null;
+	// const doReverse = useMemo(() => (reverse = !reverse), [reverse]);
 	const [sorted, setSorted] = useState({
 		Nickel: false,
 		Quarter: false,
 		Penny: false,
 		Dime: false,
 	});
-	const width = Dimensions.get('window').width;
-	const phoneWidth = width < 500 ? true : false;
-	const [sound, setSound] = useState();
+	// const width = Dimensions.get("window").width;
+	//const phoneWidth = width < 500 ? true : false;
+	const [sound, setSound] = useState<any>();
 
-	async function playSound(type) {
-		const { sound } = await Audio.Sound.createAsync(
-			type === 'correct' ? SOUND[5].sound : SOUND[4].sound
-		);
+	async function playSound(type: string) {
+		const it = SOUND.find((x) => x.action === type);
+		const { sound } = await Audio.Sound.createAsync(it?.sound);
 		setSound(sound);
 		await sound.playAsync();
 	}
@@ -51,63 +61,71 @@ const Moneytest = () => {
 			'Y from top screen : ',
 			gestureState.moveY
 		);
-		if (gestureState.moveX > 260 && gestureState.moveX < 320) {
+		if (
+			gestureState.moveX > responsiveWidth(69) &&
+			gestureState.moveX < responsiveWidth(89)
+		) {
 			// adding to the selected list
-			if (gestureState.moveY > 328 && gestureState.moveY < 386) {
-				if (id === 'Quarter') {
-					setSorted({
-						...sorted,
-						Quarter: true,
-					});
-					playSound('correct');
-					alert('Quarter sorted successful');
-					setSeleted([...selected, id]);
-					return;
-				}
-			} else if (gestureState.moveY > 496 && gestureState.moveY < 548) {
-				if (id === 'Dime') {
-					setSorted({
-						...sorted,
-						Dime: true,
-					});
-					playSound('correct');
-					alert('Dime sorted successful');
-					setSeleted([...selected, id]);
-					return;
-				}
-			} else if (gestureState.moveY > 246 && gestureState.moveY < 296) {
+			if (
+				gestureState.moveY > responsiveHeight(15) &&
+				gestureState.moveY < responsiveHeight(29)
+			) {
 				if (id === 'Penny') {
 					setSorted({
 						...sorted,
 						Penny: true,
 					});
-					playSound('correct');
-					alert('Penny sorted successful');
+					playSound('penny');
+					alert('Awesome, You found a penny!');
 					setSeleted([...selected, id]);
 					return;
 				}
-			} else if (gestureState.moveY > 397 && gestureState.moveY < 469) {
+			} else if (gestureState.moveY > height * 0.3) {
 				if (id === 'Nickel') {
 					setSorted({
 						...sorted,
 						Nickel: true,
 					});
-					playSound('correct');
-					alert('Nickel sorted successful');
+					playSound('nickel');
+					alert('Nice, You found a Nickel');
+					setReverse(false);
+					setSeleted([...selected, id]);
+					return;
+				}
+			}
+			if (gestureState.moveY > height * 0.5) {
+				if (id === 'Dime') {
+					setSorted({
+						...sorted,
+						Dime: true,
+					});
+					playSound('dime');
+					alert('Awesome, you found Dime!');
+					setSeleted([...selected, id]);
+					return;
+				}
+			}
+			if (gestureState.moveY > height * 0.6) {
+				if (id === 'Quarter') {
+					setSorted({
+						...sorted,
+						Quarter: true,
+					});
+					playSound('quarter');
+					alert("Awesome, you've found a quarter");
 					setSeleted([...selected, id]);
 					return;
 				}
 			}
 			setSeleted([...selected, id]);
-			playSound('incorrect');
-			alert('Wrong Box!!! Move to the right box!!!');
+			setReverse(true);
+			playSound('buzz');
+			alert('Wrong Spot!!! Try again!!!');
 		} else {
 			setSorted({
 				...sorted,
 				[id]: false,
 			});
-
-			console.log('Outside the drop box');
 
 			// removing from the selected list
 
@@ -115,63 +133,62 @@ const Moneytest = () => {
 			// setSeleted([...selected, id]);
 		}
 	};
+
+	const boxHeight = height * 0.65;
 	return (
-		<View>
-			<View style={{ flexDirection: 'row-reverse' }}>
-				<View style={styles.dropZone}>
+		<View style={{ height: boxHeight }}>
+			{/* <TextB>{selected?.length}/4</TextB> */}
+			<View
+				style={{
+					display: 'flex',
+					flexDirection: 'row-reverse',
+					justifyContent: 'space-between',
+				}}
+			>
+				<View style={styles.dropC}>
+					<View style={styles.item}>
+						<TextB size={responsiveFontSize(1)} color="#fff" center>
+							Penny
+						</TextB>
+					</View>
+					<View style={[{ ...styles.item, backgroundColor: 'blue' }]}>
+						<TextB size={responsiveFontSize(1)} color="#fff" center>
+							Nickel
+						</TextB>
+					</View>
+					<View style={[{ ...styles.item, backgroundColor: 'red' }]}>
+						<TextB size={responsiveFontSize(1)} center>
+							Dime
+						</TextB>
+					</View>
+					<View style={[{ ...styles.item, backgroundColor: 'green' }]}>
+						<TextB size={responsiveFontSize(1)} color="#fff" center>
+							Quarter
+						</TextB>
+					</View>
+				</View>
+				<View style={styles.column}>
 					{options.map((op, index) => (
-						<View
-							key={index}
-							style={{
-								marginLeft: '40%',
-								marginVertical: 5,
-							}}
-						>
-							<Image
-								source={require('../../../assets/images/coin-outline.png')}
-								style={{
-									width: phoneWidth ? 50 : 80,
-									height: phoneWidth ? 50 : 80,
-								}}
+						<View key={op.name} style={styles.drag}>
+							<Draggable
+								imageSource={op.image}
+								renderSize={responsiveWidth(13)}
+								x={20}
+								y={10 + index * 75}
+								onDragRelease={(event, gestureState, bounds) =>
+									checkDrop(event, gestureState, bounds, op.name)
+								}
+								onLongPress={() => console.log('long press')}
+								onShortPressRelease={() => console.log('press drag')}
+								onPressIn={() => console.log('in press')}
+								onPressOut={() => console.log('out press')}
+								//shouldReverse={reverse}
 							/>
-							<Text>{op.name?.toUpperCase()}</Text>
 						</View>
 					))}
 				</View>
-
-				<View style={styles.column}>
-					{options.map((op, index) => (
-						<Draggable
-							key={op.name}
-							imageSource={op.image}
-							renderSize={phoneWidth ? 50 : 80}
-							x={20}
-							y={10 + index * 75}
-							onDragRelease={(event, gestureState, bounds) =>
-								checkDrop(event, gestureState, bounds, op.name)
-							}
-							onLongPress={() => console.log('long press')}
-							onShortPressRelease={() => console.log('press drag')}
-							onPressIn={() => console.log('in press')}
-							onPressOut={() => console.log('out press')}
-						/>
-					))}
-				</View>
-				{/* <View style={styles.column}>
-				{options.map((op, index) => (
-					<View key={index}>
-						<Image
-							source={require('../../../assets/images/coin-outline.png')}
-							style={{
-								width: phoneWidth ? 50 : 80,
-								height: phoneWidth ? 50 : 80,
-							}}
-						/>
-						<Text>{op.name?.toUpperCase()}</Text>
-					</View>
-				))}
-			</View> */}
 			</View>
+
 			{sorted.Dime && sorted.Nickel && sorted.Penny && sorted.Quarter && (
 				<View style={{ justifyContent: 'center', marginHorizontal: 'auto' }}>
 					<CustomButton
@@ -187,16 +204,20 @@ const Moneytest = () => {
 export default Moneytest;
 const styles = StyleSheet.create({
 	column: {
-		width: '50%',
-	},
-	row: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		height: '50%',
+		width: '45%',
 	},
 	dropZone: {
 		height: '100%',
 		width: '50%',
+	},
+	item: {
+		backgroundColor: '#f1425d',
+		padding: height > 1200 ? 50 : 30,
+		margin: height > 1200 ? 30 : 15,
+		color: '#fff',
+	},
+	drag: {
+		marginBottom: height > 1200 ? 120 : 20,
 	},
 	text: {
 		marginTop: 25,
@@ -211,7 +232,11 @@ const styles = StyleSheet.create({
 		color: '#000',
 		margin: 10,
 	},
-	ballContainer: {
-		height: 200,
+	dropC: {
+		display: 'flex',
+		flexDirection: 'column',
+		backgroundColor: 'white',
+		justifyContent: 'center',
+		width: '50%',
 	},
 });

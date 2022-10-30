@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, Alert, View } from 'react-native';
 import { kidData } from '../../utils/data';
 import Page from '../../components/base-ui/Page';
 import { ContainerSafeView } from '../../components/base-ui/Container';
@@ -11,7 +11,6 @@ import Quarter from './Workbook/Quarter';
 import Moneymatch from './Workbook/Moneymatch';
 import Shopping from './Workbook/Shopping';
 import Weekly from './Workbook/Weekly';
-import Piggybank from './Workbook/Piggybank';
 import Coinsorting from './Workbook/Coinsorting';
 import Poem from './Workbook/Poem';
 import styled from 'styled-components/native';
@@ -19,17 +18,20 @@ import Moneytest from './Workbook/Moneytest';
 import MatchCoin from './Workbook/MatchCoin';
 import SvgArrowLeft from '../../assets/svgs/SvgArrowLeft';
 import SvgArrowRight from '../../assets/svgs/SvgArrowRight';
-
 import Purse from './Workbook/Purse';
 import Recognition from './Workbook/Recognition';
 import Lemonade from './Workbook/Lemonade';
+import ContainerImage from '../../components/base-ui/ContainerImage';
+import { Ionicons } from '@expo/vector-icons';
+interface Props {}
 
-const Newkid = (props) => {
+const Newkid = (props: Props) => {
 	const [pg, setPg] = useState<number>(props?.route?.params?.page || 1);
 	const item = kidData.find((x) => x.page === pg);
 
 	return (
 		<Page>
+			<ContainerImage source={require('../../assets/images/workbg.jpg')} />
 			<ContainerSafeView>
 				<HeaderAppWithHome title={item?.title || 'NA'} />
 				{pg === 1 || pg === 4 || pg === 10 || pg === 11 || pg === 12 ? (
@@ -58,10 +60,10 @@ const Newkid = (props) => {
 										return <Dime key={index} ex={ex} />;
 
 									case 2:
-										return <Moneytest key={index} />;
+										return <Moneytest key={index} ex={ex} />;
 
 									case 3:
-										return <MatchCoin key={index} />;
+										return <MatchCoin key={index} ex={ex} />;
 									case 4:
 										return <Quarter key={index} ex={ex} />;
 									case 5:
@@ -71,13 +73,13 @@ const Newkid = (props) => {
 									case 7:
 										return <Weekly key={index} />;
 									case 8:
-										return <Piggybank key={index} />;
+										return <Recognition key={index} />;
 									case 9:
 										return <Coinsorting key={index} />;
 									case 10:
-										return <Poem key={index} />;
+										return <Poem key={index} ex={ex} />;
 									case 11:
-										return <Lemonade key={index} />;
+										return <Lemonade key={index} ex={ex} />;
 
 									case 12:
 										return <Purse key={index} ex={ex} />;
@@ -112,10 +114,10 @@ const Newkid = (props) => {
 									return <Dime key={index} ex={ex} />;
 
 								case 2:
-									return <Moneytest key={index} />;
+									return <Moneytest key={index} ex={ex} />;
 
 								case 3:
-									return <MatchCoin key={index} />;
+									return <MatchCoin key={index} ex={ex} />;
 								case 4:
 									return <Quarter key={index} ex={ex} />;
 								case 5:
@@ -129,9 +131,9 @@ const Newkid = (props) => {
 								case 9:
 									return <Coinsorting key={index} />;
 								case 10:
-									return <Poem key={index} />;
+									return <Poem key={index} ex={ex} />;
 								case 11:
-									return <Lemonade key={index} />;
+									return <Lemonade key={index} ex={ex} />;
 								case 12:
 									return <Purse key={index} ex={ex} />;
 								default:
@@ -149,8 +151,10 @@ const Newkid = (props) => {
 					<Button
 						onPress={() => {
 							if (pg === 12) {
-								props.navigation.navigate('Root');
+								props.navigation.navigate('Age');
+								return;
 							}
+
 							setPg((p) => p + 1);
 						}}
 					>
@@ -171,10 +175,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		marginHorizontal: 20,
-	},
-
-	next: {
-		alignSelf: 'flex-end',
+		bottom: 0,
 	},
 });
 
