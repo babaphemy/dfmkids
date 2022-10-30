@@ -22,7 +22,6 @@ import Purse from './Workbook/Purse';
 import Recognition from './Workbook/Recognition';
 import Lemonade from './Workbook/Lemonade';
 import ContainerImage from '../../components/base-ui/ContainerImage';
-import { Ionicons } from '@expo/vector-icons';
 interface Props {}
 
 const Newkid = (props: Props) => {
